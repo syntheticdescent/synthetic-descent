@@ -2,27 +2,215 @@
 <html>
 <head>
   <title>Synthetic Descent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #030506;
+    :root {
+      --bg: #030506;
+      --panel: #08100f;
+      --text: #eef5f0;
+      --muted: #8b9892;
+      --accent: #c7ff5e;
+      --line: rgba(199, 255, 94, 0.22);
     }
 
-    img {
-      width: 95vw;
-      max-width: 1400px;
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #0b1512 0%, var(--bg) 45%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: rgba(3, 5, 6, 0.78);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      letter-spacing: 0.18em;
+      font-size: 14px;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 24px;
+      font-size: 14px;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    main {
+      padding: 72px 5vw;
+    }
+
+    .hero {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 0.9fr 1.4fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .kicker {
+      color: var(--accent);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(44px, 7vw, 96px);
+      line-height: 0.95;
+      margin: 0 0 24px;
+      letter-spacing: -0.06em;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.65;
+      max-width: 620px;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 15px 22px;
+      border: 1px solid var(--line);
+      color: var(--bg);
+      background: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .mockup {
+      border: 1px solid var(--line);
+      background: rgba(8, 16, 15, 0.62);
+      padding: 18px;
+      box-shadow: 0 0 80px rgba(199, 255, 94, 0.08);
+    }
+
+    .mockup img {
+      width: 100%;
       height: auto;
       display: block;
+    }
+
+    section {
+      max-width: 1180px;
+      margin: 96px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: rgba(8, 16, 15, 0.62);
+      padding: 28px;
+      min-height: 190px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .card p {
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    footer {
+      padding: 48px 5vw;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 96px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 900px) {
+      .hero, section {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        display: none;
+      }
     }
   </style>
 </head>
 
 <body>
-  <img src="mockup.png" alt="Synthetic Descent">
+  <header>
+    <div class="brand">Synthetic Descent</div>
+    <nav>
+      <a href="#systems">Systems</a>
+      <a href="#prototypes">Prototypes</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <div class="kicker">Lucid Systems / Prototype Lab</div>
+        <h1>Designing systems that can see themselves.</h1>
+        <p>
+          Synthetic Descent builds research prototypes and design systems that help AI,
+          people, and ecological infrastructure work together more intelligently and transparently.
+        </p>
+        <a class="button" href="#systems">Enter System</a>
+      </div>
+
+      <div class="mockup">
+        <img src="mockup.png" alt="Synthetic Descent app mockup">
+      </div>
+    </div>
+
+    <section id="systems">
+      <div class="card">
+        <h2>Lucid Tools</h2>
+        <p>Interfaces that help complex systems understand their own behavior, limits, and consequences.</p>
+      </div>
+
+      <div class="card" id="prototypes">
+        <h2>Research Prototypes</h2>
+        <p>Experimental architectures for AI coordination, ecological intelligence, and transparent decision systems.</p>
+      </div>
+
+      <div class="card">
+        <h2>Design Systems</h2>
+        <p>Minimal, rigorous visual languages for making infrastructure legible across human and machine domains.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    Synthetic Descent · Designing lucid systems
+  </footer>
 </body>
 </html>
