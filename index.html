@@ -4,161 +4,239 @@
   <title>Synthetic Descent</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg: #030506;
-      --panel: #08100f;
-      --text: #eef5f0;
-      --muted: #8b9892;
-      --accent: #c7ff5e;
-      --line: rgba(199, 255, 94, 0.22);
+      --panel: rgba(8, 16, 15, 0.68);
+      --text: #edf4ef;
+      --muted: #91a098;
+      --accent: #c7ff4f;
+      --line: rgba(199, 255, 79, 0.25);
+      --glow: rgba(199, 255, 79, 0.16);
     }
 
     * { box-sizing: border-box; }
 
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      background: radial-gradient(circle at top, #0b1512 0%, var(--bg) 45%);
+      background:
+        radial-gradient(circle at 70% 20%, rgba(199,255,79,0.08), transparent 34%),
+        radial-gradient(circle at 20% 70%, rgba(0,255,180,0.06), transparent 32%),
+        var(--bg);
       color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: "Inter Tight", system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 72px 72px;
+      opacity: 0.08;
+      animation: drift 18s linear infinite;
+    }
+
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to { transform: translateY(72px); }
     }
 
     header {
       position: sticky;
       top: 0;
-      z-index: 10;
-      backdrop-filter: blur(18px);
-      background: rgba(3, 5, 6, 0.78);
-      border-bottom: 1px solid var(--line);
-      padding: 18px 5vw;
+      z-index: 20;
+      padding: 22px 5vw;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      backdrop-filter: blur(18px);
+      background: rgba(3, 5, 6, 0.78);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand, .kicker, nav a, .button, .eyebrow {
+      font-family: "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
     }
 
     .brand {
-      letter-spacing: 0.18em;
-      font-size: 14px;
       color: var(--accent);
-      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 14px;
     }
 
     nav a {
       color: var(--muted);
       text-decoration: none;
-      margin-left: 24px;
-      font-size: 14px;
+      margin-left: 28px;
+      font-size: 12px;
     }
 
     nav a:hover { color: var(--accent); }
 
-    main {
-      padding: 72px 5vw;
-    }
+    main { padding: 80px 5vw 0; }
 
     .hero {
-      max-width: 1180px;
+      min-height: 78vh;
+      max-width: 1420px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 0.9fr 1.4fr;
-      gap: 48px;
+      grid-template-columns: 0.9fr 1.25fr;
+      gap: 54px;
       align-items: center;
     }
 
     .kicker {
       color: var(--accent);
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      font-size: 12px;
-      margin-bottom: 20px;
+      font-size: 13px;
+      margin-bottom: 22px;
     }
 
     h1 {
-      font-size: clamp(44px, 7vw, 96px);
-      line-height: 0.95;
-      margin: 0 0 24px;
-      letter-spacing: -0.06em;
+      font-size: clamp(54px, 7.8vw, 116px);
+      line-height: 0.88;
+      letter-spacing: -0.075em;
+      margin: 0 0 30px;
+      max-width: 680px;
     }
 
-    p {
+    .lead {
       color: var(--muted);
-      font-size: 18px;
-      line-height: 1.65;
-      max-width: 620px;
+      font-size: 20px;
+      line-height: 1.55;
+      max-width: 640px;
     }
 
     .button {
       display: inline-block;
-      margin-top: 28px;
-      padding: 15px 22px;
-      border: 1px solid var(--line);
-      color: var(--bg);
+      margin-top: 34px;
+      padding: 18px 26px;
       background: var(--accent);
+      color: #061007;
       text-decoration: none;
       font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
       font-size: 13px;
+      box-shadow: 0 0 40px var(--glow);
     }
 
     .mockup {
       border: 1px solid var(--line);
-      background: rgba(8, 16, 15, 0.62);
-      padding: 18px;
-      box-shadow: 0 0 80px rgba(199, 255, 94, 0.08);
+      background: var(--panel);
+      padding: 22px;
+      box-shadow: 0 0 120px var(--glow);
     }
 
     .mockup img {
       width: 100%;
-      height: auto;
       display: block;
     }
 
     section {
       max-width: 1180px;
-      margin: 96px auto 0;
+      margin: 130px auto 0;
+      padding-top: 40px;
+    }
+
+    .section-title {
+      font-size: clamp(38px, 5vw, 72px);
+      letter-spacing: -0.055em;
+      line-height: 0.95;
+      margin: 0 0 18px;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.6;
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
 
     .card {
+      min-height: 230px;
       border: 1px solid var(--line);
-      background: rgba(8, 16, 15, 0.62);
+      background: var(--panel);
       padding: 28px;
-      min-height: 190px;
+      transition: transform 200ms ease, border-color 200ms ease;
     }
 
-    .card h2 {
-      margin-top: 0;
-      font-size: 18px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .eyebrow {
       color: var(--accent);
+      font-size: 11px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      letter-spacing: -0.03em;
     }
 
     .card p {
-      font-size: 15px;
+      color: var(--muted);
       line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .manifesto {
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(199,255,79,0.08), rgba(8,16,15,0.68));
+      padding: 44px;
+    }
+
+    .manifesto p {
+      color: var(--text);
+      font-size: clamp(24px, 3vw, 42px);
+      line-height: 1.18;
+      letter-spacing: -0.045em;
+      margin: 0;
     }
 
     footer {
-      padding: 48px 5vw;
-      color: var(--muted);
+      margin-top: 130px;
+      padding: 42px 5vw;
       border-top: 1px solid var(--line);
-      margin-top: 96px;
-      font-size: 13px;
-      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
     @media (max-width: 900px) {
-      .hero, section {
+      nav { display: none; }
+
+      main { padding-top: 54px; }
+
+      .hero, .grid {
         grid-template-columns: 1fr;
       }
 
-      nav {
-        display: none;
+      .hero {
+        min-height: auto;
       }
     }
   </style>
@@ -169,8 +247,9 @@
     <div class="brand">Synthetic Descent</div>
     <nav>
       <a href="#systems">Systems</a>
+      <a href="#research">Research</a>
       <a href="#prototypes">Prototypes</a>
-      <a href="#contact">Contact</a>
+      <a href="#manifesto">Manifesto</a>
     </nav>
   </header>
 
@@ -179,7 +258,7 @@
       <div>
         <div class="kicker">Lucid Systems / Prototype Lab</div>
         <h1>Designing systems that can see themselves.</h1>
-        <p>
+        <p class="lead">
           Synthetic Descent builds research prototypes and design systems that help AI,
           people, and ecological infrastructure work together more intelligently and transparently.
         </p>
@@ -192,25 +271,101 @@
     </div>
 
     <section id="systems">
-      <div class="card">
-        <h2>Lucid Tools</h2>
-        <p>Interfaces that help complex systems understand their own behavior, limits, and consequences.</p>
-      </div>
+      <h2 class="section-title">Lucid infrastructure begins with legibility.</h2>
+      <p class="section-copy">
+        We design tools that help complex systems model their own behavior, reveal their limits,
+        and make consequences visible before they become irreversible.
+      </p>
 
-      <div class="card" id="prototypes">
-        <h2>Research Prototypes</h2>
-        <p>Experimental architectures for AI coordination, ecological intelligence, and transparent decision systems.</p>
-      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="eyebrow">01 / Sensing</div>
+          <h3>Observe</h3>
+          <p>Map signals across ecological, human, and synthetic domains without reducing them to noise.</p>
+        </div>
 
-      <div class="card">
-        <h2>Design Systems</h2>
-        <p>Minimal, rigorous visual languages for making infrastructure legible across human and machine domains.</p>
+        <div class="card">
+          <div class="eyebrow">02 / Cognition</div>
+          <h3>Interpret</h3>
+          <p>Transform system behavior into traceable models, transparent explanations, and decision-ready insight.</p>
+        </div>
+
+        <div class="card">
+          <div class="eyebrow">03 / Action</div>
+          <h3>Align</h3>
+          <p>Build interfaces that coordinate AI, people, and infrastructure toward intelligent constraint.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="research">
+      <h2 class="section-title">Research domains.</h2>
+      <p class="section-copy">
+        Synthetic Descent is concerned with systems that do not merely compute, but disclose:
+        their assumptions, their dependencies, their blind spots, and their ecological cost.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="eyebrow">Ecological AI</div>
+          <h3>Living Context</h3>
+          <p>Interfaces for watershed intelligence, soil systems, biospheric feedback, and regenerative operations.</p>
+        </div>
+
+        <div class="card">
+          <div class="eyebrow">Human Systems</div>
+          <h3>Coordination</h3>
+          <p>Design patterns for teams, institutions, and decision environments under uncertainty.</p>
+        </div>
+
+        <div class="card">
+          <div class="eyebrow">Synthetic Agents</div>
+          <h3>Transparency</h3>
+          <p>Agent architectures that expose reasoning boundaries, provenance, confidence, and consequence.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="prototypes">
+      <h2 class="section-title">Prototype layer.</h2>
+      <p class="section-copy">
+        The first visible artifact is a mobile design system for lucid coordination:
+        a dark interface grammar for observing, simulating, and governing complex systems.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="eyebrow">Prototype</div>
+          <h3>Watershed Cognition</h3>
+          <p>A simulated feedback operating system for hydrology, land use, climate, and human activity.</p>
+        </div>
+
+        <div class="card">
+          <div class="eyebrow">Index</div>
+          <h3>Reciprocity Layer</h3>
+          <p>A model for evaluating alignment between AI behavior, human intent, and ecological consequence.</p>
+        </div>
+
+        <div class="card">
+          <div class="eyebrow">Protocol</div>
+          <h3>Root Intelligence</h3>
+          <p>A design language for soil networks, sensor systems, and regenerative infrastructure.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="manifesto">
+      <div class="manifesto">
+        <p>
+          Intelligence performs. Lucidity recognizes. Synthetic Descent exists to build systems
+          that can disclose the difference.
+        </p>
       </div>
     </section>
   </main>
 
-  <footer id="contact">
-    Synthetic Descent · Designing lucid systems
+  <footer>
+    Synthetic Descent · Designing lucid systems · Region: Earth
   </footer>
 </body>
 </html>
