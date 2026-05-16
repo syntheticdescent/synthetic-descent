@@ -1,16 +1,190 @@
 <!doctype html>
 <html>
-<body style="background:black;color:white;font-family:sans-serif">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Synthetic Descent — Sigil Forge</title>
 
-<h1>Synthetic Descent</h1>
+<style>
+body{
+  margin:0;
+  background:#050507;
+  color:#f3ead7;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  padding:24px;
+}
 
-<p>Sigil Forge Online</p>
+.kicker{
+  color:#d8b76a;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-size:.75rem;
+}
 
-<svg viewBox="0 0 200 200" width="200">
-  <line x1="20" y1="20" x2="180" y2="180" stroke="white"/>
-  <line x1="180" y1="20" x2="20" y2="180" stroke="white"/>
-  <circle cx="100" cy="100" r="10" fill="gold"/>
-</svg>
+h1{
+  font-size:2rem;
+  margin:.25rem 0 .5rem;
+}
+
+.note{
+  color:rgba(243,234,215,.72);
+  max-width:680px;
+  line-height:1.55;
+}
+
+.controls{
+  display:flex;
+  gap:12px;
+  margin:24px 0;
+  flex-wrap:wrap;
+}
+
+input,button{
+  padding:12px;
+  border-radius:12px;
+  font-size:1rem;
+}
+
+input{
+  background:#111;
+  color:#f3ead7;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+button{
+  background:#d8b76a;
+  color:#050507;
+  border:none;
+  font-weight:700;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+  gap:16px;
+}
+
+.card{
+  background:#111;
+  padding:12px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.1);
+}
+
+svg{
+  width:100%;
+  height:auto;
+  background:black;
+  border-radius:12px;
+}
+</style>
+</head>
+
+<body>
+
+<p class="kicker">Synthetic Descent</p>
+<h1>Sigil Forge</h1>
+
+<p class="note">
+A deterministic symbol generator. Type a phrase, press generate,
+and the same phrase will always summon the same family of marks.
+</p>
+
+<div class="controls">
+  <input id="seed" value="Synthetic Descent">
+  <button onclick="render()">Generate</button>
+</div>
+
+<div id="grid" class="grid"></div>
+
+<script>
+function hash(str){
+  let h=2166136261>>>0;
+  for(let i=0;i<str.length;i++){
+    h^=str.charCodeAt(i);
+    h=Math.imul(h,16777619)>>>0;
+  }
+  return h>>>0;
+}
+
+function rng(seed){
+  let x=seed>>>0;
+  return()=>{
+    x^=x<<13;
+    x^=x>>>17;
+    x^=x<<5;
+    return(x>>>0)/2**32;
+  }
+}
+
+function makeSigil(seedText,index){
+  const r=rng(hash(seedText+"|"+index));
+  let lines="";
+
+  for(let i=0;i<18;i++){
+    const x1=48+r()*416;
+    const y1=48+r()*416;
+    const x2=48+r()*416;
+    const y2=48+r()*416;
+    const stroke=i%4===0 ? "#d8b76a" : "#f3ead7";
+    const width=2+r()*3;
+
+    lines+=`
+      <line
+        x1="${x1.toFixed(1)}"
+        y1="${y1.toFixed(1)}"
+        x2="${x2.toFixed(1)}"
+        y2="${y2.toFixed(1)}"
+        stroke="${stroke}"
+        stroke-width="${width.toFixed(1)}"
+        stroke-linecap="round"
+        opacity=".9"
+      />
+      <line
+        x1="${(512-x1).toFixed(1)}"
+        y1="${y1.toFixed(1)}"
+        x2="${(512-x2).toFixed(1)}"
+        y2="${y2.toFixed(1)}"
+        stroke="${stroke}"
+        stroke-width="${width.toFixed(1)}"
+        stroke-linecap="round"
+        opacity=".45"
+      />
+    `;
+  }
+
+  return `
+  <svg viewBox="0 0 512 512">
+    <rect width="512" height="512" rx="72" fill="#050507"/>
+    <circle cx="256" cy="256" r="210" fill="none" stroke="rgba(243,234,215,.12)"/>
+    <circle cx="256" cy="256" r="156" fill="none" stroke="rgba(243,234,215,.10)"/>
+    ${lines}
+    <path
+      d="M256 84 L284 228 L428 256 L284 284 L256 428 L228 284 L84 256 L228 228 Z"
+      fill="none"
+      stroke="#d8b76a"
+      stroke-width="2"
+      opacity=".82"
+    />
+    <circle cx="256" cy="256" r="10" fill="#d8b76a"/>
+  </svg>`;
+}
+
+function render(){
+  const seed=document.getElementById("seed").value || "Synthetic Descent";
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
+
+  for(let i=0;i<12;i++){
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=makeSigil(seed,i);
+    grid.appendChild(card);
+  }
+}
+
+render();
+</script>
 
 </body>
 </html>
